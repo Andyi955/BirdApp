@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">BirdApp</string>
+    <string name="addTitle">Add a Bird to your collection</string>
+    <string name="birdId">Reference</string>
+    <string name="birdName">Name</string>
+    <string name="dateNow">Pick Date</string>
+    <string name="spinnerType">Type of Bird</string>
+    <string name="birdImg">Image</string>
+    <string name="addBird">Add</string>
+    <string name="bird_image">Bird Image</string>
+    <string name="select_bird_image">Select bird image</string>
+    <string name="change_bird_image">Change bird image</string>
+    <string name="action_collection">Collection</string>
+    <string name="action_addbird">Add Bird</string>
+    <string name="action_home">Home</string>
+
+    <string name="addImage">Add Image</string>
+
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Bird Watching</string>
+    <string name="nav_header_subtitle">Welcome</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_add">Add</string>
+    <string name="menu_collection">Collection</string>
+    <string name="menu_map">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="selected_item">Selected item:</string>
+
+    <string-array name="Types">
+        <item>None Selected</item>
+        <item>Accipitriformes</item>
+        <item>Albatross</item>
+        <item>Auk</item>
+        <item>Birds-of-paradise</item>
+        <item>Bulbul</item>
+        <item>Bustard</item>
+        <item>Columbidae</item>
+        <item>Cormorants</item>
+        <item>Cranes</item>
+        <item>Cuckoos</item>
+        <item>Cygini</item>
+        <item>Ducks</item>
+        <item>Finches</item>
+        <item>Flamingos</item>
+        <item>Fowl</item>
+        <item>Frogmouth</item>
+        <item>Guineafowls</item>
+        <item>Gulls</item>
+        <item>Grouse</item>
+        <item>Herons</item>
+        <item>Hornbill</item>
+        <item>Hoopoes</item>
+        <item>Hummingbirds</item>
+        <item>Ibis</item>
+        <item>Kingfisher</item>
+        <item>Kiwis</item>
+        <item>Loons</item>
+        <item>Nightjars</item>
+        <item>Nyctibius</item>
+        <item>Neognathae</item>
+        <item>Old World sparrows</item>
+        <item>Parrots</item>
+        <item>Passerine</item>
+        <item>Penguins</item>
+        <item>Plover</item>
+        <item>Potoo</item>
+        <item>Rail</item>
+        <item>Sandpiper</item>
+        <item>Skuas</item>
+        <item>Shorebirds</item>
+        <item>Sternidae</item>
+        <item>Stork</item>
+        <item>Swallows</item>
+        <item>Swifts</item>
+        <item>Toucans</item>
+        <item>Waterfowl</item>
+        <item>Woodpeckers</item>
+        <item>Skuas</item>
+        <item>Sternidae</item>
+        <item>Bustard</item>
+        <item>Perl</item>
+
+    </string-array>
+
+</resources>
