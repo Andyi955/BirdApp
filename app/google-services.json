@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "444912683387",
+    "project_id": "birdapp-106bf",
+    "storage_bucket": "birdapp-106bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444912683387:android:9e586aabf02445970fd5de",
+        "android_client_info": {
+          "package_name": "ie.wit.birdapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444912683387-2pst6kk2hnd4g9dktj0urh082c723fgn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0mIcDoa48UDMNmdR9lpFl1rlShVGecxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444912683387-2pst6kk2hnd4g9dktj0urh082c723fgn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

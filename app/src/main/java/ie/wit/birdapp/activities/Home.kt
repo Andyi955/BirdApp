@@ -1,17 +1,28 @@
 package ie.wit.birdapp.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import ie.wit.birdapp.R
 import ie.wit.birdapp.fragments.AddBirdFragment
 import ie.wit.birdapp.fragments.BirdCollectionFragment
 import ie.wit.birdapp.fragments.MapsFragment
+
+import ie.wit.birdapp.models.BirdModel
+import kotlinx.android.synthetic.main.add_bird_fragment.*
+import kotlinx.android.synthetic.main.add_bird_fragment.view.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.home.*
 import org.jetbrains.anko.toast
