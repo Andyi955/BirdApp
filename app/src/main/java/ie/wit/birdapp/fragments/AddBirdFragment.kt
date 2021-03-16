@@ -4,6 +4,7 @@
 
 package ie.wit.birdapp.fragments
 
+import AddBirdAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -12,14 +13,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner
 import ie.wit.birdapp.R
-import ie.wit.birdapp.adapters.AddBirdAdapter
 
 import ie.wit.birdapp.main.BirdApp
 import ie.wit.birdapp.models.BirdModel
+import ie.wit.birdapp.utils.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.add_bird_fragment.*
 import kotlinx.android.synthetic.main.add_bird_fragment.view.*
+import kotlinx.android.synthetic.main.collection_fragment.view.*
 import kotlinx.android.synthetic.main.collection_layout_cards.*
 import kotlinx.android.synthetic.main.collection_layout_cards.view.*
 import org.jetbrains.anko.AnkoLogger

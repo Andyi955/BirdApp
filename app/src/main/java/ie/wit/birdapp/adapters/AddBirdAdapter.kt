@@ -1,6 +1,3 @@
-package ie.wit.birdapp.adapters
-
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,29 +10,37 @@ import kotlinx.android.synthetic.main.collection_layout_cards.view.*
 import java.time.LocalDate
 
 
-class AddBirdAdapter(val birdcollections: List<BirdModel>
+class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>
 ): RecyclerView.Adapter<AddBirdAdapter.MainHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(
-                LayoutInflater.from(parent.context).inflate(
-                        R.layout.collection_layout_cards,
-                        parent,
-                        false
-                )
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.collection_layout_cards,
+                parent,
+                false
+            )
         )
     }
 
 
 
+
+
     override fun getItemCount(): Int = birdcollections.size
 
+    fun removeAt(position: Int){
+        birdcollections.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
-     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(birdcollection: BirdModel) {
 
+            itemView.tag = birdcollection.id
             itemView.birdname.text = birdcollection.name
             itemView.birdtype.text = birdcollection.type
             itemView.birdrefNo.text = birdcollection.ref.toString()

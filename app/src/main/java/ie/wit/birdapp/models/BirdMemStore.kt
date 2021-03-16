@@ -27,7 +27,7 @@ class BirdMemStore : BirdStore {
         logAll()
     }
 
-    override fun delete(bird1: BirdModel) {
+    override fun delete(bird1: Long) {
         birds.remove(bird1)
     }
 

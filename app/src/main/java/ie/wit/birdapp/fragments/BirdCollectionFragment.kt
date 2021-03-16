@@ -1,28 +1,19 @@
 package ie.wit.birdapp.fragments
 
+import AddBirdAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SimpleAdapter
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ie.wit.birdapp.R
-import ie.wit.birdapp.adapters.AddBirdAdapter
 import ie.wit.birdapp.main.BirdApp
 import ie.wit.birdapp.models.BirdModel
-import kotlinx.android.synthetic.main.add_bird_fragment.view.*
-import kotlinx.android.synthetic.main.collection_fragment.*
+import ie.wit.birdapp.utils.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.collection_fragment.view.*
-import kotlinx.android.synthetic.main.collection_layout_cards.view.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivityForResult
 
 
 /**
@@ -32,7 +23,6 @@ import org.jetbrains.anko.startActivityForResult
  */
 class BirdCollectionFragment : Fragment(){
     lateinit var app: BirdApp
-    lateinit var adapter: AddBirdAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,9 +40,20 @@ class BirdCollectionFragment : Fragment(){
         var root = inflater.inflate(R.layout.collection_fragment, container, false)
         root.recyclerView.setLayoutManager(LinearLayoutManager(activity))
 
-        root.recyclerView.adapter = AddBirdAdapter(app.birdStore.findAll())
+        root.recyclerView.adapter = AddBirdAdapter(app.birdStore.findAll() as ArrayList<BirdModel>)
 
 
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireActivity()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = root.recyclerView.adapter as AddBirdAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                deleteBird(viewHolder.itemView.tag as Long)
+
+
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(root.recyclerView)
 
 
 
@@ -70,7 +71,9 @@ class BirdCollectionFragment : Fragment(){
                 }
     }
 
-
+    fun deleteBird(bird1: Long) {
+        app.birdStore.delete(bird1)
+    }
 
 
 }

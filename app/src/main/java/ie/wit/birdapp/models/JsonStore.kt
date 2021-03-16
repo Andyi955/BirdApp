@@ -61,7 +61,7 @@ class JSONStore : BirdStore, AnkoLogger {
             serialize()
         }
     }
-    override fun delete(bird1: BirdModel) {
+    override fun delete(bird1: Long) {
         birds.remove(bird1)
         serialize()
     }
