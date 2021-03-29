@@ -3,37 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_view"
-    app:startDestination="@id/addBirdFragment">
-   <!-- <fragment
-        android:id="@+id/loggedInFragment"
-        android:name="ie.wit.birdapp.fragments.LoggedInFragment"
-        android:label="logged_in"
-        tools:layout="@layout/logged_in" >
-        <action
-            android:id="@+id/action_loggedInFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/logIn2"
-        android:name="ie.wit.birdapp.fragments.LogIn"
-        android:label="fragment_log_in"
-        tools:layout="@layout/fragment_log_in" >
-        <action
-            android:id="@+id/action_logIn2_to_loggedInFragment"
-            app:destination="@id/loggedInFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="ie.wit.birdapp.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_logIn2"
-            app:destination="@id/logIn2" />
-    </fragment>-->
-    <fragment
-        android:id="@+id/addBirdFragment"
-        android:name="ie.wit.birdapp.fragments.AddBirdFragment"
-        android:label="add_bird_fragment"
-        tools:layout="@layout/add_bird_fragment" />
+    app:startDestination="@id/login">
+    <activity
+        android:id="@+id/login"
+        android:name="ie.wit.birdapp.activities.Login"
+        android:label="login"
+        tools:layout="@layout/login" />
 </navigation>

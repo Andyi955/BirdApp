@@ -1,6 +1,7 @@
 package ie.wit.birdapp.fragments
 
 import AddBirdAdapter
+import BirdListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.collection_fragment.view.*
  * Use the [BirdCollectionFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BirdCollectionFragment : Fragment(){
+class BirdCollectionFragment : Fragment(), BirdListener {
     lateinit var app: BirdApp
 
 
@@ -40,7 +41,7 @@ class BirdCollectionFragment : Fragment(){
         var root = inflater.inflate(R.layout.collection_fragment, container, false)
         root.recyclerView.setLayoutManager(LinearLayoutManager(activity))
 
-        root.recyclerView.adapter = AddBirdAdapter(app.birdStore.findAll() as ArrayList<BirdModel>)
+        root.recyclerView.adapter = AddBirdAdapter(app.birdStore.findAll() as ArrayList<BirdModel>,this)
 
 
         val swipeDeleteHandler = object : SwipeToDeleteCallback(requireActivity()) {
@@ -73,6 +74,13 @@ class BirdCollectionFragment : Fragment(){
 
     fun deleteBird(bird1: Long) {
         app.birdStore.delete(bird1)
+    }
+
+    override fun onBirdClick(birdModel: BirdModel) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.mainFrame, EditBirdFragment.newInstance(birdModel))
+            .addToBackStack(null)
+            .commit()
     }
 
 

@@ -9,8 +9,12 @@ import ie.wit.birdapp.models.BirdModel
 import kotlinx.android.synthetic.main.collection_layout_cards.view.*
 import java.time.LocalDate
 
+interface BirdListener{
+    fun onBirdClick(birdModel: BirdModel)
+}
 
-class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>
+class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>,
+                     private val listener: BirdListener
 ): RecyclerView.Adapter<AddBirdAdapter.MainHolder>() {
 
 
@@ -38,19 +42,20 @@ class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>
 
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(birdcollection: BirdModel) {
+        fun bind(birdcollection: BirdModel, listener: BirdListener) {
 
             itemView.tag = birdcollection.id
             itemView.birdname.text = birdcollection.name
             itemView.birdtype.text = birdcollection.type
             itemView.birdrefNo.text = birdcollection.ref.toString()
             itemView.imageIcon.setImageResource(R.mipmap.ic_bird_round)
+            itemView.setOnClickListener { listener.onBirdClick(birdcollection) }
         }
 
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val birdcollection = birdcollections[holder.adapterPosition]
-        holder.bind(birdcollection)
+        holder.bind(birdcollection,listener)
     }
 }
