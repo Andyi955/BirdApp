@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 
 import ie.wit.birdapp.R
 import ie.wit.birdapp.main.BirdApp
@@ -38,6 +39,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
         // Initialize Firebase Auth
         app.auth = FirebaseAuth.getInstance()
         // [END initialize_auth]
+
+        app.database = FirebaseDatabase.getInstance().reference
 
         loader = createLoader(this)
     }

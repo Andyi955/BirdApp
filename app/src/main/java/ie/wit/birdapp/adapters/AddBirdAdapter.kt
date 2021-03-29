@@ -44,7 +44,7 @@ class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>,
 
         fun bind(birdcollection: BirdModel, listener: BirdListener) {
 
-            itemView.tag = birdcollection.id
+            itemView.tag = birdcollection
             itemView.birdname.text = birdcollection.name
             itemView.birdtype.text = birdcollection.type
             itemView.birdrefNo.text = birdcollection.ref.toString()

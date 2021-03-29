@@ -21,8 +21,8 @@ val JSON_FILE = "storage.json"
 val gsonBuilder = GsonBuilder().setPrettyPrinting().create()
 val listType = object : TypeToken<ArrayList<BirdModel>>() {}.type
 
-fun generateRandomId(): Long {
-    return Random().nextLong()
+fun generateRandomId(): String? {
+    return Random().toString()
 }
 
 class JSONStore : BirdStore, AnkoLogger {
@@ -46,14 +46,14 @@ class JSONStore : BirdStore, AnkoLogger {
     }
 
     override fun create(bird1: BirdModel) {
-        bird1.id = generateRandomId()
+        bird1.uid = generateRandomId()
         birds.add(bird1)
         serialize()
     }
 
 
     override fun update(bird1: BirdModel) {
-        var foundBird : BirdModel? = birds.find { p -> p.id == bird1.id }
+        var foundBird : BirdModel? = birds.find { p -> p.uid == bird1.uid }
         if (foundBird != null) {
             foundBird.name = bird1.name
             foundBird.type = bird1.type
