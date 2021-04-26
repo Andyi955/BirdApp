@@ -129,7 +129,7 @@ class AddBirdFragment : Fragment(),AnkoLogger {
 
 
               //  app.birdStore.create(BirdModel(name = addname, type = type, ref = refNo))
-                writeNewDonation(BirdModel(name = addname,type = type,ref = refNo, email = app.auth.currentUser.email))
+                writeNewDonation(BirdModel(name = addname,type = type,ref = refNo, profilepic = app.userImage.toString(), email = app.auth.currentUser?.email))
                 activity?.toast("Bird Added to collection")
             }
 

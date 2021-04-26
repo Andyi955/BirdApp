@@ -2,10 +2,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 import ie.wit.birdapp.R
 import ie.wit.birdapp.models.BirdModel
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.collection_layout_cards.view.*
 import java.time.LocalDate
 
@@ -14,9 +17,10 @@ interface BirdListener{
 }
 
 class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>,
-                     private val listener: BirdListener
+                     private val listener: BirdListener, birdall : Boolean
 ): RecyclerView.Adapter<AddBirdAdapter.MainHolder>() {
 
+    val birdAll = birdall
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(
@@ -28,7 +32,10 @@ class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>,
         )
     }
 
-
+    override fun onBindViewHolder(holder: MainHolder, position: Int) {
+        val birdcollection = birdcollections[holder.adapterPosition]
+        holder.bind(birdcollection,listener,birdAll)
+    }
 
 
 
@@ -42,20 +49,26 @@ class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>,
 
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(birdcollection: BirdModel, listener: BirdListener) {
+        fun bind(birdcollection: BirdModel, listener: BirdListener,birdAll: Boolean) {
 
             itemView.tag = birdcollection
             itemView.birdname.text = birdcollection.name
             itemView.birdtype.text = birdcollection.type
             itemView.birdrefNo.text = birdcollection.ref.toString()
-            itemView.imageIcon.setImageResource(R.mipmap.ic_bird_round)
+
+            if(!birdAll)
             itemView.setOnClickListener { listener.onBirdClick(birdcollection) }
+            if(!birdcollection.profilepic.isEmpty()) {
+                Picasso.get().load(birdcollection.profilepic.toUri())
+                    //.resize(180, 180)
+                    .transform(CropCircleTransformation())
+                    .into(itemView.imageIcon)
+            }
+            else
+                itemView.imageIcon.setImageResource(R.mipmap.ic_bird_round)
         }
 
     }
 
-    override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val birdcollection = birdcollections[holder.adapterPosition]
-        holder.bind(birdcollection,listener)
-    }
+
 }

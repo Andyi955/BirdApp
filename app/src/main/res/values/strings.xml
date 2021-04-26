@@ -14,12 +14,17 @@
     <string name="action_addbird">Add Bird</string>
     <string name="action_home">Home</string>
 
+    <string name="select_profile_image">Select Profile Image</string>
+
     <string name="addImage">Add Image</string>
 
     <string name="action_edit">Edit Bird</string>
     <string name="action_update">Update</string>
     <string name="message_edit">Please Update your Details Below</string>
 
+    <string name="action_geolocate">Pick Place</string>
+    <string name="default_info_title">Default Location</string>
+    <string name="default_info_snippet">No places found, because location permission is disabled.</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -61,6 +66,7 @@
     <string name="emailpassword_title_text">Please Login Below</string>
     <string name="loginbtn">Login</string>
     <string name="register_account">Register</string>
+    <string name="menu_collection_all">All Birds</string>
 
 
     <string-array name="Types">

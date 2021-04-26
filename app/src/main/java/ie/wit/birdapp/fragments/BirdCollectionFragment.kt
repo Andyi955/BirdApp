@@ -29,7 +29,7 @@ import org.jetbrains.anko.info
  * Use the [BirdCollectionFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
+open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
     lateinit var app: BirdApp
    lateinit var loader: AlertDialog
     lateinit var root: View
@@ -123,6 +123,7 @@ class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
     }
     override fun onResume() {
         super.onResume()
+        if(this::class == BirdCollectionFragment::class)
         getAllBirds(app.auth.currentUser!!.uid)
     }
 
@@ -143,7 +144,7 @@ class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
 
                         collectionsList.add(collection!!)
                         root.recyclerView.adapter =
-                            AddBirdAdapter(collectionsList, this@BirdCollectionFragment)
+                            AddBirdAdapter(collectionsList, this@BirdCollectionFragment,birdall = false)
                         root.recyclerView.adapter?.notifyDataSetChanged()
                        // checkSwipeRefresh()
                         hideLoader(loader)
