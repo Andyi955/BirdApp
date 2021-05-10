@@ -17,18 +17,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner
 import ie.wit.birdapp.R
-import ie.wit.birdapp.activities.Login
 import ie.wit.birdapp.main.BirdApp
 import ie.wit.birdapp.models.BirdModel
-import ie.wit.birdapp.utils.*
+import ie.wit.birdapp.utils.createLoader
+import ie.wit.birdapp.utils.hideLoader
+import ie.wit.birdapp.utils.showLoader
 import kotlinx.android.synthetic.main.add_bird_fragment.*
 import kotlinx.android.synthetic.main.add_bird_fragment.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class AddBirdFragment : Fragment(),AnkoLogger {
@@ -36,6 +34,8 @@ class AddBirdFragment : Fragment(),AnkoLogger {
     lateinit var app: BirdApp
     lateinit var loader: AlertDialog
     lateinit var eventListener: ValueEventListener
+    var favourite = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class AddBirdFragment : Fragment(),AnkoLogger {
 
 
         setButtonListener(root)
-
+        setFavouriteListener(root)
         return root;
     }
 
@@ -128,15 +128,52 @@ class AddBirdFragment : Fragment(),AnkoLogger {
 
 
 
-              //  app.birdStore.create(BirdModel(name = addname, type = type, ref = refNo))
-                writeNewDonation(BirdModel(name = addname,type = type,ref = refNo, profilepic = app.userImage.toString(), email = app.auth.currentUser?.email))
+                writeNewCollection(BirdModel(
+                        name = addname,
+                        type = type,
+                        ref = refNo,
+                        profilepic = app.userImage.toString(),
+                        isfavourite = favourite,
+                        latitude = app.currentLocation.latitude,
+                        longitude = app.currentLocation.longitude,
+                        email = app.auth.currentUser?.email))
                 activity?.toast("Bird Added to collection")
             }
 
         }
     }
 
-    fun writeNewDonation(collection: BirdModel) {
+    fun setFavouriteListener (layout: View) {
+        layout.imagefavourite.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                if (!favourite) {
+                    layout.imagefavourite.setImageResource(android.R.drawable.star_big_on)
+                    favourite = true
+                }
+                else {
+                    layout.imagefavourite.setImageResource(android.R.drawable.star_big_off)
+                    favourite = false
+                }
+            }
+        })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        getTotalBirds(app.auth.currentUser?.uid)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(app.auth.uid != null)
+            app.database.child("user-collections")
+                    .child(app.auth.currentUser!!.uid)
+                    .removeEventListener(eventListener)
+    }
+
+
+    fun writeNewCollection(collection: BirdModel) {
         // Create new donation at /donations & /donations/$uid
         showLoader(loader, "Adding Bird to Firebase")
         info("Firebase DB Reference : $app.database")
@@ -157,7 +194,7 @@ class AddBirdFragment : Fragment(),AnkoLogger {
         hideLoader(loader)
     }
 
-    fun getTotalDonated(userId: String?) {
+    fun getTotalBirds(userId: String?) {
 
         eventListener = object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -165,9 +202,9 @@ class AddBirdFragment : Fragment(),AnkoLogger {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                val children = snapshot!!.children
+                val children = snapshot.children
                 children.forEach {
-                   it.getValue(BirdModel::class.java!!)
+                   it.getValue(BirdModel::class.java)
 
                 }
 
@@ -179,18 +216,6 @@ class AddBirdFragment : Fragment(),AnkoLogger {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        getTotalDonated(app.auth.currentUser?.uid)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if(app.auth.uid != null)
-            app.database.child("user-collections")
-                .child(app.auth.currentUser!!.uid)
-                .removeEventListener(eventListener)
-    }
 
 
 }

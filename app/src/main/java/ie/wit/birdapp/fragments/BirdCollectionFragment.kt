@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -20,6 +21,8 @@ import ie.wit.birdapp.main.BirdApp
 import ie.wit.birdapp.models.BirdModel
 import ie.wit.birdapp.utils.*
 import kotlinx.android.synthetic.main.collection_fragment.view.*
+import kotlinx.android.synthetic.main.collection_fragment.view.recyclerView
+import kotlinx.android.synthetic.main.collection_layout_cards.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -49,9 +52,7 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
         // Inflate the layout for this fragment
          root = inflater.inflate(R.layout.collection_fragment, container, false)
         root.recyclerView.setLayoutManager(LinearLayoutManager(activity))
-        loader = createLoader(requireActivity())
-
-     //   root.recyclerView.adapter = AddBirdAdapter(app.birdStore.findAll() as ArrayList<BirdModel>,this)
+        setSwipeRefresh()
 
 
         val swipeDeleteHandler = object : SwipeToDeleteCallback(requireActivity()) {
@@ -87,6 +88,17 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
                 BirdCollectionFragment().apply {
                     arguments = Bundle().apply {}
                 }
+    }
+
+    open fun setSwipeRefresh() {
+        root.swiperefresh.setOnRefreshListener {
+            root.swiperefresh.isRefreshing = true
+            getAllBirds(app.auth.currentUser!!.uid)
+        }
+    }
+
+    fun checkSwipeRefresh() {
+        if (root.swiperefresh.isRefreshing) root.swiperefresh.isRefreshing = false
     }
 
     fun deleteUserCollection(userId: String, uid: String?) {
@@ -128,8 +140,10 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
     }
 
     fun getAllBirds(userId: String?) {
-        //showLoader(loader, "Downloading Donations from Firebase")
-        var collectionsList = ArrayList<BirdModel>()
+        loader = createLoader(requireActivity())
+        showLoader(loader, "Downloading Collections from Firebase")
+
+        val collectionsList = ArrayList<BirdModel>()
         app.database.child("user-collections").child(userId!!)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -138,17 +152,16 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                    hideLoader(loader)
-                    val children = snapshot!!.children
+                    val children = snapshot.children
                     children.forEach {
-                        val collection = it.getValue(BirdModel::class.java!!)
+                        val collection = it.getValue(BirdModel::class.java)
 
                         collectionsList.add(collection!!)
                         root.recyclerView.adapter =
-                            AddBirdAdapter(collectionsList, this@BirdCollectionFragment,birdall = false)
+                            AddBirdAdapter(collectionsList, this@BirdCollectionFragment,false)
                         root.recyclerView.adapter?.notifyDataSetChanged()
-                       // checkSwipeRefresh()
-                        hideLoader(loader)
-                        app.database.child("user-collections").child(userId!!).removeEventListener(this)
+                       checkSwipeRefresh()
+                        app.database.child("user-collections").child(userId).removeEventListener(this)
                     }
                 }
             })

@@ -1,22 +1,22 @@
 package ie.wit.birdapp.activities
 
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import ie.wit.birdapp.R
-import ie.wit.birdapp.fragments.AddBirdFragment
-import ie.wit.birdapp.fragments.AllBirdsFragment
-import ie.wit.birdapp.fragments.BirdCollectionFragment
-import ie.wit.birdapp.fragments.MapsFragment
+import ie.wit.birdapp.fragments.*
 import ie.wit.birdapp.helpers.*
 import ie.wit.birdapp.main.BirdApp
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -40,8 +40,22 @@ NavigationView.OnNavigationItemSelectedListener {
         setContentView(R.layout.home)
         setSupportActionBar(toolbar)
         app = application as BirdApp
+        //app.currentLocation = Location("Default").apply {
+      //   latitude = 52.245696
+    //      longitude = -7.139102
+   //  }
+        app.locationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        if(checkLocationPermissions(this)) {
+            // todo get the current location
+            setCurrentLocation(app)
+        }
+
 
         navView.setNavigationItemSelectedListener(this)
+
+
+
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
@@ -70,7 +84,7 @@ NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_maps -> navigateTo(MapsFragment.newInstance())
+            R.id.nav_maps -> navigateTo(BirdLocationsFragment.newInstance())
             R.id.nav_add -> navigateTo(AddBirdFragment.newInstance())
             R.id.nav_collection -> navigateTo(BirdCollectionFragment.newInstance())
             R.id.nav_collection_all -> navigateTo(AllBirdsFragment())
@@ -128,4 +142,19 @@ NavigationView.OnNavigationItemSelectedListener {
             }
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (isPermissionGranted(requestCode, grantResults)) {
+            // todo get the current location
+            setCurrentLocation(app)
+        } else {
+            // permissions denied, so use the default location
+            app.currentLocation = Location("Default").apply {
+                latitude = 52.245696
+                longitude = -7.139102
+            }
+        }
+        Log.v("Bird", "Home LAT: ${app.currentLocation.latitude} LNG: ${app.currentLocation.longitude}")
+    }
+
 }

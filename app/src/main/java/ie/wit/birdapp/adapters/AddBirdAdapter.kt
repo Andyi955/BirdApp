@@ -55,10 +55,11 @@ class AddBirdAdapter(val birdcollections: ArrayList<BirdModel>,
             itemView.birdname.text = birdcollection.name
             itemView.birdtype.text = birdcollection.type
             itemView.birdrefNo.text = birdcollection.ref.toString()
+            if(birdcollection.isfavourite) itemView.imagefavourite.setImageResource(android.R.drawable.star_big_on)
 
             if(!birdAll)
             itemView.setOnClickListener { listener.onBirdClick(birdcollection) }
-            if(!birdcollection.profilepic.isEmpty()) {
+            if(birdcollection.profilepic.isNotEmpty()) {
                 Picasso.get().load(birdcollection.profilepic.toUri())
                     //.resize(180, 180)
                     .transform(CropCircleTransformation())

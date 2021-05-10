@@ -12,6 +12,9 @@ data class BirdModel(var uid: String? = "",
                      var ref: Long = 0,
                      var type: String = "NA",
                      var profilepic: String = "",
+                     var isfavourite: Boolean = false,
+                     var latitude: Double = 0.0,
+                     var longitude: Double = 0.0,
                      var email: String? ="andy@andy.com") : Parcelable
 
 
@@ -25,6 +28,9 @@ data class BirdModel(var uid: String? = "",
             "ref" to ref,
             "type" to type,
             "profilepic" to profilepic,
+            "isfavourite" to isfavourite,
+            "latitude" to latitude,
+            "longitude" to longitude,
             "email" to email
 
         )

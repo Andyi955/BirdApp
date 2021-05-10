@@ -94,6 +94,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.589" />
 
+    <ImageView
+        android:id="@+id/imagefavourite"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="388dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/star_big_off" />
+
     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
         android:id="@+id/spinner_view"
         style="@android:style/Widget.Spinner.DropDown"

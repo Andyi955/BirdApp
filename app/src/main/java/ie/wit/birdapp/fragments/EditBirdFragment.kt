@@ -51,6 +51,8 @@ class EditBirdFragment : Fragment(),AnkoLogger {
         loader = createLoader(requireActivity())
 
 
+        //root.editName.setText(editBird!!.name)
+
 
         root.editUpdateButton.setOnClickListener {
             showLoader(loader, "Updating Collection")

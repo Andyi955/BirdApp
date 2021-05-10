@@ -79,6 +79,9 @@ dependencies {
 
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
 
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+
 
 
 

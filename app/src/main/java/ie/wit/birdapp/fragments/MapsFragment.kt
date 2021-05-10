@@ -1,55 +1,45 @@
 package ie.wit.birdapp.fragments
 
-import androidx.fragment.app.Fragment
-
+import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import ie.wit.birdapp.R
+import ie.wit.birdapp.helpers.getAllBirds
+import ie.wit.birdapp.helpers.setMapMarker
+import ie.wit.birdapp.helpers.trackLocation
+import ie.wit.birdapp.main.BirdApp
 
-class MapsFragment : Fragment() {
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+/**
+ * A simple [Fragment] subclass.
+ * Use the [MapsFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class MapsFragment : SupportMapFragment(), OnMapReadyCallback {
+
+    lateinit var app: BirdApp
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        app = activity?.application as BirdApp
+        getMapAsync(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_maps, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-    }
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            MapsFragment().apply {
-                arguments = Bundle().apply {}
-            }
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(googleMap: GoogleMap) {
+        app.mMap = googleMap
+        app.mMap.isMyLocationEnabled = true
+        app.mMap.uiSettings.isZoomControlsEnabled = true
+        app.mMap.uiSettings.setAllGesturesEnabled(true)
+        app.mMap.clear()
+        trackLocation(app)
+        setMapMarker(app)
+        getAllBirds(app)
     }
 }
