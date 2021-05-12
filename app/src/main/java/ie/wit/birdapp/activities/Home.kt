@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import ie.wit.birdapp.R
@@ -20,6 +20,7 @@ import ie.wit.birdapp.fragments.*
 import ie.wit.birdapp.helpers.*
 import ie.wit.birdapp.main.BirdApp
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import kotlinx.android.synthetic.main.add_bird_fragment.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.home.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -40,11 +41,9 @@ NavigationView.OnNavigationItemSelectedListener {
         setContentView(R.layout.home)
         setSupportActionBar(toolbar)
         app = application as BirdApp
-        //app.currentLocation = Location("Default").apply {
-      //   latitude = 52.245696
-    //      longitude = -7.139102
-   //  }
         app.locationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
 
         if(checkLocationPermissions(this)) {
             // todo get the current location
@@ -65,12 +64,20 @@ NavigationView.OnNavigationItemSelectedListener {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        navView.getHeaderView(0).nav_header_email.text = app.auth.currentUser?.email
+
+        if(app.currentUser.email != null)
+            navView.getHeaderView(0).nav_header_email.text = app.currentUser.email
+        else
+            navView.getHeaderView(0).nav_header_email.text = "No Email Specified..."
+
+
         navView.getHeaderView(0).imageView.setOnClickListener {
            showImagePicker(this,1)
         }
+
         //Checking if Google User, upload google profile pic
         checkExistingPhoto(app,this)
+
 
         ft = supportFragmentManager.beginTransaction()
 
@@ -87,7 +94,7 @@ NavigationView.OnNavigationItemSelectedListener {
             R.id.nav_maps -> navigateTo(BirdLocationsFragment.newInstance())
             R.id.nav_add -> navigateTo(AddBirdFragment.newInstance())
             R.id.nav_collection -> navigateTo(BirdCollectionFragment.newInstance())
-            R.id.nav_collection_all -> navigateTo(AllBirdsFragment())
+            R.id.nav_collection_all -> navigateTo(AllBirdsFragment.newInstance()    )
             R.id.nav_sign_out ->
                 signOut()
             else -> toast("You Selected Something Else")
@@ -117,8 +124,9 @@ NavigationView.OnNavigationItemSelectedListener {
 
     private fun signOut()
     {
-        app.auth.signOut()
-        startActivity<Login>()
+      AuthUI.getInstance()
+          .signOut(this)
+          .addOnCompleteListener{startActivity<Login>()}
         finish()
     }
 

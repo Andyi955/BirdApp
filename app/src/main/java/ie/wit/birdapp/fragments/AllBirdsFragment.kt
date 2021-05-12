@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import ie.wit.birdapp.R
 import ie.wit.birdapp.models.BirdModel
@@ -31,48 +33,25 @@ class AllBirdsFragment : BirdCollectionFragment(), BirdListener
 
         root.recyclerView.setLayoutManager(LinearLayoutManager(activity))
 
+        var query = FirebaseDatabase.getInstance()
+            .reference.child("collections")
+
+        var options = FirebaseRecyclerOptions.Builder<BirdModel>()
+            .setQuery(query, BirdModel::class.java)
+            .setLifecycleOwner(this)
+            .build()
+
+        root.recyclerView.adapter = AddBirdAdapter(options, this)
+
         return root
     }
-
     companion object {
         @JvmStatic
         fun newInstance() =
-                AllBirdsFragment().apply {
-                    arguments = Bundle().apply { }
-                }
+            AllBirdsFragment().apply {
+                arguments = Bundle().apply { }
+            }
     }
 
-    override fun onResume() {
-        super.onResume()
-        getAllUsersDonations()
-    }
-
-    fun getAllUsersDonations() {
-        loader = createLoader(requireActivity())
-        showLoader(loader, "Downloading All Users Birds from Firebase")
-        val birdList = ArrayList<BirdModel>()
-        app.database.child("collections")
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        info("Firebase Donation error : ${error.message}")
-                    }
-
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        hideLoader(loader)
-                        val children = snapshot.children
-                        children.forEach {
-                            val bird = it.
-                            getValue(BirdModel::class.java)
-
-                            birdList.add(bird!!)
-                            root.recyclerView.adapter =
-                                    AddBirdAdapter(birdList, this@AllBirdsFragment,birdall = true)
-                            root.recyclerView.adapter?.notifyDataSetChanged()
-
-                            app.database.child("collections").removeEventListener(this)
-                        }
-                    }
-                })
-    }
 
 }

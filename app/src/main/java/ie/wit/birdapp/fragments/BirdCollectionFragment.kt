@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import ie.wit.birdapp.R
 import ie.wit.birdapp.main.BirdApp
@@ -52,15 +54,27 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
         // Inflate the layout for this fragment
          root = inflater.inflate(R.layout.collection_fragment, container, false)
         root.recyclerView.setLayoutManager(LinearLayoutManager(activity))
-        setSwipeRefresh()
+        activity?.title = getString(R.string.action_collection)
+
+
+        var query = FirebaseDatabase.getInstance()
+            .reference
+            .child("user-collections").child(app.currentUser.uid)
+
+        var options = FirebaseRecyclerOptions.Builder<BirdModel>()
+            .setQuery(query, BirdModel::class.java)
+            .setLifecycleOwner(this)
+            .build()
+
+        root.recyclerView.adapter = AddBirdAdapter(options, this)
 
 
         val swipeDeleteHandler = object : SwipeToDeleteCallback(requireActivity()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = root.recyclerView.adapter as AddBirdAdapter
-                adapter.removeAt(viewHolder.adapterPosition)
                 deleteCollection((viewHolder.itemView.tag as BirdModel).uid)
-                deleteUserCollection(app.auth.currentUser!!.uid,
+                deleteUserCollection(
+                    app.currentUser.uid,
                                      (viewHolder.itemView.tag as BirdModel).uid)
 
             }
@@ -90,16 +104,9 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
                 }
     }
 
-    open fun setSwipeRefresh() {
-        root.swiperefresh.setOnRefreshListener {
-            root.swiperefresh.isRefreshing = true
-            getAllBirds(app.auth.currentUser!!.uid)
-        }
-    }
 
-    fun checkSwipeRefresh() {
-        if (root.swiperefresh.isRefreshing) root.swiperefresh.isRefreshing = false
-    }
+
+
 
     fun deleteUserCollection(userId: String, uid: String?) {
         app.database.child("user-collections").child(userId).child(uid!!)
@@ -133,41 +140,6 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
             .addToBackStack(null)
             .commit()
     }
-    override fun onResume() {
-        super.onResume()
-        if(this::class == BirdCollectionFragment::class)
-        getAllBirds(app.auth.currentUser!!.uid)
-    }
-
-    fun getAllBirds(userId: String?) {
-        loader = createLoader(requireActivity())
-        showLoader(loader, "Downloading Collections from Firebase")
-
-        val collectionsList = ArrayList<BirdModel>()
-        app.database.child("user-collections").child(userId!!)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                    info("Firebase Donation error : ${error.message}")
-                }
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                   hideLoader(loader)
-                    val children = snapshot.children
-                    children.forEach {
-                        val collection = it.getValue(BirdModel::class.java)
-
-                        collectionsList.add(collection!!)
-                        root.recyclerView.adapter =
-                            AddBirdAdapter(collectionsList, this@BirdCollectionFragment,false)
-                        root.recyclerView.adapter?.notifyDataSetChanged()
-                       checkSwipeRefresh()
-                        app.database.child("user-collections").child(userId).removeEventListener(this)
-                    }
-                }
-            })
-    }
-
-
 
 
 

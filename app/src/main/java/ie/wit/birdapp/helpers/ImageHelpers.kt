@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import ie.wit.birdapp.R
+import ie.wit.birdapp.activities.Home
+import ie.wit.birdapp.fragments.AddBirdFragment
 import java.io.IOException
 
 fun showImagePicker(parent: Activity, id: Int) {
@@ -12,7 +14,9 @@ fun showImagePicker(parent: Activity, id: Int) {
     intent.action = Intent.ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE)
     val chooser = Intent.createChooser(intent, R.string.select_profile_image.toString())
+
     parent.startActivityForResult(chooser, id)
+
 }
 
 fun readImageUri(resultCode: Int, data: Intent?): Uri? {
@@ -25,4 +29,3 @@ fun readImageUri(resultCode: Int, data: Intent?): Uri? {
     }
     return uri
 }
-

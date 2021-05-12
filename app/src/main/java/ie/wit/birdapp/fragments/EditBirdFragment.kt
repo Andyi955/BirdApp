@@ -58,7 +58,7 @@ class EditBirdFragment : Fragment(),AnkoLogger {
             showLoader(loader, "Updating Collection")
             updateBirdData()
             updateCollection(editBird!!.uid, editBird!!)
-            updateUserCollection(app.auth.currentUser!!.uid,
+            updateUserCollection(app.currentUser!!.uid,
                 editBird!!.uid, editBird!!)
         }
 

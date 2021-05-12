@@ -9,6 +9,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.StorageReference
 import ie.wit.birdapp.models.*
@@ -18,7 +19,7 @@ class BirdApp : Application() {
     var birds = ArrayList<BirdModel>()
 
     // [START declare_auth]
-    lateinit var auth: FirebaseAuth
+    lateinit var currentUser: FirebaseUser
     // [END declare_auth]
     lateinit var googleSignInClient: GoogleSignInClient
     lateinit var storage: StorageReference

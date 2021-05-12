@@ -100,7 +100,7 @@ fun setMapMarker(app: BirdApp) {
 fun getAllBirds(app: BirdApp){
     val birdsList = ArrayList<BirdModel>()
 
-    app.database.child("user-collections").child(app.auth.currentUser!!.uid)
+    app.database.child("user-collections").child(app.currentUser.uid)
             .addValueEventListener(object : ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
@@ -126,7 +126,7 @@ fun getAllBirds(app: BirdApp){
 fun getFavouriteBirds(app: BirdApp) {
     val birdsList = ArrayList<BirdModel>()
 
-    app.database.child("user-collections").child(app.auth.currentUser!!.uid)
+    app.database.child("user-collections").child(app.currentUser.uid)
             .orderByChild("isfavourite")
             .equalTo(true)
             .addValueEventListener(object : ValueEventListener{

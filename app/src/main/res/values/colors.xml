@@ -8,6 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimaryDark">#034F8F</color>
+    <color name="red">#F44336</color>
+    <color name="grey">#B4B8B8</color>
+
+
+
+
 
 
     <!--colors for modern ui-->
@@ -17,4 +23,11 @@
 
     <!--colros for card-->
     <color name="whiteCardColor">#fff</color>
+
+    <color name="material_green_50">#E8F5E9</color>
+    <color name="material_green_500">#4CAF50</color>
+    <color name="material_green_700">#388E3C</color>
+    <color name="material_green_a200">#69F0AE</color>
+    <color name="material_lime_a700">#AEEA00</color>
+    <color name="material_purple_a700">#AA00FF</color>
 </resources>

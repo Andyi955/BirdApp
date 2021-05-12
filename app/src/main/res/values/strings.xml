@@ -71,6 +71,10 @@
     <string name="register_account">Register</string>
     <string name="menu_collection_all">All Birds</string>
 
+    <string name="sign_in_google">Sign In with Google</string>
+    <string name="sign_in_email">Sign In with Email</string>
+    <string name="sign_in_phone">Sign In with Phone</string>
+
 
     <string-array name="Types">
         <item>None Selected</item>
