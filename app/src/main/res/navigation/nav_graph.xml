@@ -9,4 +9,20 @@
         android:name="ie.wit.birdapp.activities.Login"
         android:label="login"
         tools:layout="@layout/login" />
+    <fragment
+        android:id="@+id/birdCollectionFragment"
+        android:name="ie.wit.birdapp.fragments.BirdCollectionFragment"
+        android:label="collection_layout_cards"
+        tools:layout="@layout/collection_layout_cards" />
+    <fragment
+        android:id="@+id/addBirdFragment"
+        android:name="ie.wit.birdapp.fragments.AddBirdFragment"
+        android:label="add_bird_fragment"
+        tools:layout="@layout/add_bird_fragment" >
+        <action
+            android:id="@+id/action_addBirdFragment_to_birdCollectionFragment"
+            app:destination="@id/birdCollectionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_bottom" />
+    </fragment>
 </navigation>

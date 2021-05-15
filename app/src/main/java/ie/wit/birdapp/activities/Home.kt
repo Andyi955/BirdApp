@@ -53,9 +53,6 @@ NavigationView.OnNavigationItemSelectedListener {
 
         navView.setNavigationItemSelectedListener(this)
 
-
-
-
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
             R.string.navigation_drawer_open,

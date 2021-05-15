@@ -53,10 +53,11 @@ fun isPermissionGranted(code: Int, grantResults: IntArray): Boolean {
 fun setCurrentLocation(app: BirdApp) {
     app.locationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
-                app.currentLocation = location!!
+               app.currentLocation = location!!
             }
 }
 
+@Suppress("DEPRECATION")
 @SuppressLint("RestrictedApi")
 fun createDefaultLocationRequest() : LocationRequest {
     val locationRequest = LocationRequest().apply {
@@ -103,7 +104,6 @@ fun getAllBirds(app: BirdApp){
     app.database.child("user-collections").child(app.currentUser.uid)
             .addValueEventListener(object : ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -131,7 +131,6 @@ fun getFavouriteBirds(app: BirdApp) {
             .equalTo(true)
             .addValueEventListener(object : ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
