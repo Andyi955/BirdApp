@@ -41,15 +41,13 @@ NavigationView.OnNavigationItemSelectedListener {
         setContentView(R.layout.home)
         setSupportActionBar(toolbar)
         app = application as BirdApp
+
+
         app.locationClient = LocationServices.getFusedLocationProviderClient(this)
-
-
-
         if(checkLocationPermissions(this)) {
             // todo get the current location
             setCurrentLocation(app)
         }
-
 
         navView.setNavigationItemSelectedListener(this)
 
@@ -74,6 +72,7 @@ NavigationView.OnNavigationItemSelectedListener {
 
         //Checking if Google User, upload google profile pic
         checkExistingPhoto(app,this)
+
 
 
         ft = supportFragmentManager.beginTransaction()
@@ -150,14 +149,14 @@ NavigationView.OnNavigationItemSelectedListener {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (isPermissionGranted(requestCode, grantResults)) {
-            // todo get the current location
-            setCurrentLocation(app)
+            app.currentLocation = Location("Default").apply {
+                latitude = 52.245696
+                longitude = -7.139102}
         } else {
             // permissions denied, so use the default location
             app.currentLocation = Location("Default").apply {
                 latitude = 52.245696
-                longitude = -7.139102
-            }
+                longitude = -7.139102}
         }
         Log.v("Bird", "Home LAT: ${app.currentLocation.latitude} LNG: ${app.currentLocation.longitude}")
     }

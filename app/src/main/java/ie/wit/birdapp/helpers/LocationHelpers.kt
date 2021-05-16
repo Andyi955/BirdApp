@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationCallback
@@ -52,12 +53,11 @@ fun isPermissionGranted(code: Int, grantResults: IntArray): Boolean {
 @SuppressLint("MissingPermission")
 fun setCurrentLocation(app: BirdApp) {
     app.locationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-               app.currentLocation = location!!
-            }
+        .addOnSuccessListener { location : Location? ->
+            app.currentLocation = location!!
+        }
 }
 
-@Suppress("DEPRECATION")
 @SuppressLint("RestrictedApi")
 fun createDefaultLocationRequest() : LocationRequest {
     val locationRequest = LocationRequest().apply {
@@ -81,19 +81,18 @@ fun trackLocation(app: BirdApp) {
     }
 
     app.locationClient.requestLocationUpdates(createDefaultLocationRequest(),
-        locationCallback, null)
+        locationCallback, null )
 }
 
 fun setMapMarker(app: BirdApp) {
 
     val pos = LatLng(app.currentLocation.latitude,
-        app.currentLocation.longitude)
+            app.currentLocation.longitude)
 
-    app.marker = app.mMap.addMarker(
-        MarkerOptions().position(pos)
-        .title("My Current Location")
-        .snippet("This is Me!")
-        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+    app.marker = app.mMap.addMarker(MarkerOptions().position(pos)
+            .title("My Current Location")
+            .snippet("This is Me!")
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
 
     app.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14f))
 }

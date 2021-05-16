@@ -71,7 +71,7 @@ open class BirdCollectionFragment : Fragment(), AnkoLogger, BirdListener {
 
         val swipeDeleteHandler = object : SwipeToDeleteCallback(requireActivity()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = root.recyclerView.adapter as AddBirdAdapter
+                //val adapter = root.recyclerView.adapter as AddBirdAdapter
                 deleteCollection((viewHolder.itemView.tag as BirdModel).uid)
                 deleteUserCollection(
                     app.currentUser.uid,

@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ie.wit.birdapp.R
 
+/* This class uses item touch helper and allows it
+* to swipe delete where it is implemeted eg. Birdcollection class*/
+
 abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_delete_sweep_24)//remember to change
