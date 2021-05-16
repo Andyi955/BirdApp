@@ -149,9 +149,8 @@ NavigationView.OnNavigationItemSelectedListener {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (isPermissionGranted(requestCode, grantResults)) {
-            app.currentLocation = Location("Default").apply {
-                latitude = 52.245696
-                longitude = -7.139102}
+            setCurrentLocation(app)
+
         } else {
             // permissions denied, so use the default location
             app.currentLocation = Location("Default").apply {
