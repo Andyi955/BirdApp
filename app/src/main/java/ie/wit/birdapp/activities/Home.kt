@@ -150,7 +150,6 @@ NavigationView.OnNavigationItemSelectedListener {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (isPermissionGranted(requestCode, grantResults)) {
             setCurrentLocation(app)
-
         } else {
             // permissions denied, so use the default location
             app.currentLocation = Location("Default").apply {
